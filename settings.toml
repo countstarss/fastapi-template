@@ -3,6 +3,7 @@ dynaconf_merge = true
 
 [development.db]
 echo = true
+uri = "postgresql://postgres:postgres@localhost:5432/luke"
 
 [development.server]
 log_level = "debug"
@@ -14,6 +15,7 @@ dynaconf_merge = true
 
 [production.db]
 echo = false
+uri = "postgresql://postgres:postgres@db:5432/luke"
 
 [production.server]
 log_level = "error"
@@ -21,6 +23,9 @@ reload = false
 
 [testing]
 dynaconf_merge = true
+
+[testing.db]
+uri = "postgresql://postgres:postgres@localhost:5432/postgres"
 
 [testing.server]
 cors_origins = ["http://localhost:3000", "http://localhost:4200"]

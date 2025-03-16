@@ -6,17 +6,31 @@ from sqlmodel import Session, or_, select
 
 from ..db import ActiveSession
 from ..models.content import Content, ContentIncoming, ContentResponse
-from ..security import AuthenticatedUser, User, get_current_user
+from ..models.security import User
+from ..security import AuthenticatedUser, get_current_user
 
 router = APIRouter()
 
 
+# MARK: 内容列表
+"""
+获取所有内容列表
+- 返回所有内容项目
+- 不需要认证
+"""
 @router.get("/", response_model=List[ContentResponse])
 async def list_contents(*, session: Session = ActiveSession):
     contents = session.exec(select(Content)).all()
     return contents
 
 
+# MARK: 查询单个内容
+"""
+查询单个内容
+- 可以通过ID或slug查询
+- 返回内容详情
+- 如果内容不存在，返回404错误
+"""
 @router.get("/{id_or_slug}/", response_model=ContentResponse)
 async def query_content(
     *, id_or_slug: Union[str, int], session: Session = ActiveSession
@@ -32,6 +46,14 @@ async def query_content(
     return content.first()
 
 
+# MARK: 创建新内容
+"""
+CREATE_CONTENT
+- 需要已认证用户权限
+- 自动关联当前用户ID
+- 保存内容到数据库
+- 返回创建的内容详情
+"""
 @router.post(
     "/", response_model=ContentResponse, dependencies=[AuthenticatedUser]
 )
@@ -51,6 +73,15 @@ async def create_content(
     return db_content
 
 
+# MARK: 更新内容
+"""
+UPDATE_CONTENT
+- 需要已认证用户权限
+- 验证内容是否存在
+- 验证当前用户是否有权限更新内容（拥有者或管理员）
+- 更新内容并保存到数据库
+- 返回更新后的内容详情
+"""
 @router.patch(
     "/{content_id}/",
     response_model=ContentResponse,
@@ -86,6 +117,15 @@ async def update_content(
     return content
 
 
+# MARK: 删除内容
+"""
+DELETE_CONTENT
+- 需要已认证用户权限
+- 验证内容是否存在
+- 验证当前用户是否有权限删除内容（拥有者或管理员）
+- 删除内容并保存更改
+- 返回操作结果
+"""
 @router.delete("/{content_id}/", dependencies=[AuthenticatedUser])
 def delete_content(
     *, session: Session = ActiveSession, request: Request, content_id: int

@@ -5,9 +5,16 @@ from pydantic import BaseModel, Extra
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
-    from fastapi_template.security import User
+    from fastapi_template.models.security import User
 
 
+# MARK: CONTENT_MODEL
+"""
+内容数据模型
+- 定义内容表结构
+- 包含标题、别名、正文、发布状态等字段
+- 与用户模型建立关联关系
+"""
 class Content(SQLModel, table=True):
     """This is an example model for your application.
 
@@ -29,6 +36,12 @@ class Content(SQLModel, table=True):
     user: Optional["User"] = Relationship(back_populates="contents")
 
 
+# MARK: CONTENT_RESPONSE
+"""
+内容响应模型
+- 用于API响应的序列化
+- 处理标签从字符串到列表的转换
+"""
 class ContentResponse(BaseModel):
     """This the serializer exposed on the API"""
 
@@ -49,6 +62,13 @@ class ContentResponse(BaseModel):
         super().__init__(*args, **kwargs)
 
 
+# MARK: CONTENT_INCOMING
+"""
+内容输入模型
+- 用于POST/PATCH请求的数据验证和处理
+- 处理标签从列表到字符串的转换
+- 自动生成别名(slug)
+"""
 class ContentIncoming(BaseModel):
     """This is the serializer used for POST/PATCH requests"""
 

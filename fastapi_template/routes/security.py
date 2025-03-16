@@ -4,10 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..config import settings
+from ..models.security import RefreshToken, Token, User
 from ..security import (
-    RefreshToken,
-    Token,
-    User,
     authenticate_user,
     create_access_token,
     create_refresh_token,
@@ -21,6 +19,14 @@ REFRESH_TOKEN_EXPIRE_MINUTES = settings.security.refresh_token_expire_minutes
 router = APIRouter()
 
 
+# MARK: LOGIN_FOR_ACCESS_TOKEN
+"""
+用户登录获取访问令牌
+- 接收用户名和密码
+- 验证用户凭据
+- 生成访问令牌和刷新令牌
+- 返回令牌信息
+"""
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -51,6 +57,14 @@ async def login_for_access_token(
     }
 
 
+# MARK: REFRESH_TOKEN
+"""
+刷新访问令牌
+- 接收刷新令牌
+- 验证刷新令牌的有效性
+- 生成新的访问令牌和刷新令牌
+- 返回新的令牌信息
+"""
 @router.post("/refresh_token", response_model=Token)
 async def refresh_token(form_data: RefreshToken):
     user = await validate_token(token=form_data.refresh_token)
