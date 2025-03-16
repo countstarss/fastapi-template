@@ -2,14 +2,15 @@ import io
 import os
 
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
 
 from .db import create_db_and_tables, engine
 from .routes import main_router
 from fastapi_template.api.v1.api import api_router
 from fastapi_template.core.config import settings
+from fastapi_template.core.middleware import setup_middlewares
 
 
+# MARK: 读取文件内容
 def read(*paths, **kwargs):
     """Read the contents of a text file safely.
     >>> read("VERSION")
@@ -23,10 +24,12 @@ def read(*paths, **kwargs):
     return content
 
 
+# MARK: 项目描述
 description = """
 FastAPI helps you do awesome stuff. 🚀
 """
 
+# MARK: 创建应用
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description=settings.PROJECT_DESCRIPTION,
@@ -34,17 +37,12 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# 设置CORS
-if settings.BACKEND_CORS_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+# MARK: 设置中间件
+setup_middlewares(app)
 
-# 包含API路由
+
+
+# MARK: 包含API路由
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 

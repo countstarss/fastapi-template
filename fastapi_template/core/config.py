@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     PROJECT_DESCRIPTION: str = "FastAPI Template with SQLModel and JWT authentication"
     VERSION: str = "0.1.0"
     
+    # 日志配置
+    LOG_LEVEL: str = "info"
+    LOG_FILE: Optional[str] = None
+    
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     
     @validator("BACKEND_CORS_ORIGINS", pre=True)
