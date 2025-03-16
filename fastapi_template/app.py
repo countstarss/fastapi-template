@@ -4,9 +4,10 @@ import os
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from .config import settings
 from .db import create_db_and_tables, engine
 from .routes import main_router
+from fastapi_template.api.v1.api import api_router
+from fastapi_template.core.config import settings
 
 
 def read(*paths, **kwargs):
@@ -27,31 +28,24 @@ FastAPI helps you do awesome stuff. 🚀
 """
 
 app = FastAPI(
-    title="Fastapi_Luke",
-    description=description,
-    version=read("VERSION"),
-    # terms_of_service="http://fastapi_template.com/terms/",
-    contact={
-        "name": "luke",
-        "email": "countstarss404@gmail.com",
-        # "url": "https://github.com/countstarss",
-    },
-    license_info={
-        # "name": "The Unlicense",
-        # "url": "https://unlicense.org",
-    },
+    title=settings.PROJECT_NAME,
+    description=settings.PROJECT_DESCRIPTION,
+    version=settings.VERSION,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-if settings.server and settings.server.get("cors_origins", None):
+# 设置CORS
+if settings.BACKEND_CORS_ORIGINS:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.server.cors_origins,
-        allow_credentials=settings.get("server.cors_allow_credentials", True),
-        allow_methods=settings.get("server.cors_allow_methods", ["*"]),
-        allow_headers=settings.get("server.cors_allow_headers", ["*"]),
+        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
-app.include_router(main_router)
+# 包含API路由
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
 @app.on_event("startup")
