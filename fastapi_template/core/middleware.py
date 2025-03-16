@@ -34,7 +34,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 
 # MARK: 设置中间件
 def setup_middlewares(app: FastAPI) -> None:
-    # 设置CORS
+    # NOTE: 设置CORS
     if settings.BACKEND_CORS_ORIGINS:
         app.add_middleware(
             CORSMiddleware,
@@ -44,5 +44,5 @@ def setup_middlewares(app: FastAPI) -> None:
             allow_headers=["*"],
         )
     
-    # 添加日志中间件
+    # NOTE: 添加日志中间件
     app.add_middleware(LoggingMiddleware)

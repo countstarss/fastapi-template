@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "info"
     LOG_FILE: Optional[str] = None
     
+    # 数据库配置
+    DATABASE_URI: str = "postgresql://postgres:postgres@localhost:5432/luke"
+    
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     
     @validator("BACKEND_CORS_ORIGINS", pre=True)
