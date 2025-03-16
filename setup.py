@@ -30,17 +30,20 @@ def read_requirements(path):
 
 
 setup(
-    name="fastapi_template",
+    name="fastapi",
     version=read("fastapi_template", "VERSION"),
-    description="Awesome fastapi_template created by countstarss",
+    description="Awesome fastapi_template created by luke",
     url="https://github.com/countstarss/fastapi-template/",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    author="countstarss",
+    author="luke",
     packages=find_packages(exclude=["tests", ".github"]),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
-        "console_scripts": ["fastapi_template = fastapi_template.__main__:main"]
+        "console_scripts": ["fastapi = fastapi_template.__main__:main"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
+    swagger_ui_parameters={  # SwaggerUI 参数
+        "syntaxHighlight.theme": "monokai",  # 代码高亮主题
+    }
 )

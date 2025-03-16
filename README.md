@@ -1,3 +1,7 @@
+# 运行命令
+fastapi run --port 8080
+
+
 # FastAPI Project Template
 
 The base to start an openapi project featuring: SQLModel, Typer, FastAPI, JWT Token Auth, Interactive Shell, Management Commands. 
@@ -74,7 +78,7 @@ pip install fastapi_template
 ## Executing
 
 ```bash
-$ fastapi_template run --port 8080
+$ fastapi run --port 8080
 ```
 
 or
@@ -92,8 +96,8 @@ $ uvicorn fastapi_template:app
 ## CLI
 
 ```bash
-❯ fastapi_template --help
-Usage: fastapi_template [OPTIONS] COMMAND [ARGS]...
+❯ fastapi --help
+Usage: fastapi [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --install-completion [bash|zsh|fish|powershell|pwsh]
@@ -112,8 +116,8 @@ Commands:
 ### Creating a user
 
 ```bash
-❯ fastapi_template create-user --help
-Usage: fastapi_template create-user [OPTIONS] USERNAME PASSWORD
+❯ fastapi create-user --help
+Usage: fastapi create-user [OPTIONS] USERNAME PASSWORD
 
   Create user
 
@@ -129,7 +133,7 @@ Options:
 **IMPORTANT** To create an admin user on the first run:
 
 ```bash
-fastapi_template create-user admin admin --superuser
+fastapi create-user admin admin --superuser
 ```
 
 ### The Shell
@@ -137,7 +141,7 @@ fastapi_template create-user admin admin --superuser
 You can enter an interactive shell with all the objects imported.
 
 ```bash
-❯ fastapi_template shell       
+❯ fastapi shell       
 Auto imports: ['app', 'settings', 'User', 'engine', 'cli', 'create_user', 'select', 'session', 'Content']
 
 In [1]: session.query(Content).all()

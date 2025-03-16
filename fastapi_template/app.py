@@ -30,15 +30,15 @@ app = FastAPI(
     title="Fastapi_Luke",
     description=description,
     version=read("VERSION"),
-    terms_of_service="http://fastapi_template.com/terms/",
+    # terms_of_service="http://fastapi_template.com/terms/",
     contact={
-        "name": "countstarss",
-        "url": "http://fastapi_template.com/contact/",
-        "email": "countstarss@fastapi_template.com",
+        "name": "luke",
+        "email": "countstarss404@gmail.com",
+        # "url": "https://github.com/countstarss",
     },
     license_info={
-        "name": "The Unlicense",
-        "url": "https://unlicense.org",
+        # "name": "The Unlicense",
+        # "url": "https://unlicense.org",
     },
 )
 
