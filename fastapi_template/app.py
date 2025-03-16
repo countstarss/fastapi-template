@@ -23,11 +23,11 @@ def read(*paths, **kwargs):
 
 
 description = """
-fastapi_template API helps you do awesome stuff. 🚀
+FastAPI helps you do awesome stuff. 🚀
 """
 
 app = FastAPI(
-    title="fastapi_template",
+    title="Fastapi_Luke",
     description=description,
     version=read("VERSION"),
     terms_of_service="http://fastapi_template.com/terms/",
